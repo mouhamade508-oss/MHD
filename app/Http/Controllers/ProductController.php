@@ -135,7 +135,7 @@ class ProductController extends Controller
      */
     public function whatsapp(Product $product)
     {
-        $whatsappNumber = env('WHATSAPP_NUMBER', '963XXXXXXXXX');
+$whatsappNumber = env('WHATSAPP_NUMBER', '963982617848');
         $selectedColor = session('product_variant_color_' . $product->id);
         $selectedSize = session('product_variant_size_' . $product->id);
         $stock = $product->variant_stock;
@@ -157,7 +157,7 @@ class ProductController extends Controller
      */
     public function getWhatsAppLink(Product $product): string
     {
-        $whatsappNumber = env('WHATSAPP_NUMBER', '963XXXXXXXXX');
+$whatsappNumber = env('WHATSAPP_NUMBER', '963982617848');
         $message = "مرحباً، أريد الاستفسار عن منتج: {$product->name} - MHD Print Lab";
         $encodedMessage = urlencode($message);
         return "https://wa.me/{$whatsappNumber}?text={$encodedMessage}";

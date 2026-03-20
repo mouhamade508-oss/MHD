@@ -202,5 +202,73 @@ return redirect()->route('admin.products.index')->with('success', 'تم إضاف
         $discount->delete();
         return redirect()->route('admin.discounts.index')->with('success', 'تم الحذف بنجاح!');
     }
+
+    // Reviews CRUD
+    public function reviewsIndex(Request $request)
+    {
+        $query = Review::with(['product', 'user'])->latest();
+        
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('comment', 'like', '%' . $search . '%')
+                  ->orWhereHas('product', function ($q) use ($search) {
+                      $q->where('name', 'like', '%' . $search . '%');
+                  });
+            });
+        }
+        
+        if ($request->filled('product_id')) {
+            $query->where('product_id', $request->product_id);
+        }
+        
+        if ($request->filled('approved')) {
+            $query->where('approved', $request->approved);
+        }
+        
+        $reviews = $query->paginate(15);
+        $products = Product::all();
+        
+        return view('admin.reviews.index', compact('reviews', 'products'));
+    }
+
+    public function reviewsEdit(Review $review)
+    {
+        $review->load(['product', 'user']);
+        return view('admin.reviews.edit', compact('review'));
+    }
+
+    public function reviewsUpdate(Request $request, Review $review)
+    {
+        $request->validate([
+            'guest_name' => 'nullable|string|max:50',
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|max:1000',
+            'approved' => 'boolean',
+        ]);
+
+        $review->update($request->only('guest_name', 'rating', 'comment', 'approved'));
+
+        return redirect()->route('admin.reviews.index')->with('success', 'تم تحديث التقييم بنجاح!');
+    }
+
+    public function reviewsDestroy(Review $review)
+    {
+        $review->delete();
+        return redirect()->route('admin.reviews.index')->with('success', 'تم حذف التقييم بنجاح!');
+    }
+
+    public function reviewsApprove(Review $review)
+    {
+        $review->update(['approved' => true]);
+        return redirect()->route('admin.reviews.index')->with('success', 'تم اعتماد التقييم!');
+    }
+
+    public function reviewsReject(Review $review)
+    {
+        $review->update(['approved' => false]);
+        return redirect()->route('admin.reviews.index')->with('success', 'تم رفض التقييم!');
+    }
 }
+
 

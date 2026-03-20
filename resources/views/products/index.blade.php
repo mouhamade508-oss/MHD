@@ -275,7 +275,8 @@
                 <div class="col-lg-3 col-md-6">
                     <h5>تواصل معنا</h5>
                     <p class="text-light mb-2">واتساب فوري</p>
-                    <a href="https://wa.me/963XXXXXXXXX" class="btn btn-success mb-2 w-100">
+                    <a href="https://wa.me/963982617848" class="btn btn-success mb-2 w-100">
+
                         <i class="bi bi-whatsapp me-2"></i>ابدأ الدردشة
                     </a>
                 </div>

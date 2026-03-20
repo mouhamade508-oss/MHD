@@ -9,7 +9,7 @@ Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/search', [ProductController::class, 'index'])->name('products.search');
 
-Route::get('/home', [ProductController::class, 'index'])->name('home');
+Route::get('/home', [ProductController::class, 'index'])->name('products.home');
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
 Route::post('/product/{product}/reviews', [ProductController::class, 'storeReview'])->name('product.reviews.store');
 Route::get('/product/{product}/whatsapp', [ProductController::class, 'whatsapp'])->name('product.whatsapp');
@@ -52,6 +52,14 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     Route::get('/discounts/{discount}/edit', [AdminController::class, 'discountsEdit'])->name('discounts.edit');
     Route::put('/discounts/{discount}', [AdminController::class, 'discountsUpdate'])->name('discounts.update');
     Route::delete('/discounts/{discount}', [AdminController::class, 'discountsDestroy'])->name('discounts.destroy');
+
+    // Admin reviews CRUD + actions
+    Route::get('/reviews', [AdminController::class, 'reviewsIndex'])->name('reviews.index');
+    Route::get('/reviews/{review}/edit', [AdminController::class, 'reviewsEdit'])->name('reviews.edit');
+    Route::put('/reviews/{review}', [AdminController::class, 'reviewsUpdate'])->name('reviews.update');
+    Route::delete('/reviews/{review}', [AdminController::class, 'reviewsDestroy'])->name('reviews.destroy');
+    Route::post('/reviews/{review}/approve', [AdminController::class, 'reviewsApprove'])->name('reviews.approve');
+    Route::post('/reviews/{review}/reject', [AdminController::class, 'reviewsReject'])->name('reviews.reject');
 });
 
 // Auth routes (Breeze)
