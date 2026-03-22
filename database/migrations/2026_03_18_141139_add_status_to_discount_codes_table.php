@@ -9,11 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+public function up(): void
     {
-        Schema::table('discount_codes', function (Blueprint $table) {
-            $table->enum('status', ['active', 'inactive'])->default('active');
-        });
+        if (Schema::hasTable('discount_codes')) {
+            Schema::table('discount_codes', function (Blueprint $table) {
+                if (!Schema::hasColumn('discount_codes', 'status')) {
+                    $table->enum('status', ['active', 'inactive'])->default('active');
+                }
+            });
+        }
     }
 
     /**

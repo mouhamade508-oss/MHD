@@ -11,7 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('discount_codes');
+        // Skip drop if no table - for Railway fresh DB
+        if (Schema::hasTable('discount_codes')) {
+            Schema::dropIfExists('discount_codes');
+        }
     }
 
     /**
